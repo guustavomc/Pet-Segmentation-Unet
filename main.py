@@ -103,9 +103,9 @@ show_sample(train_dataset, idx=0)
 
 BATCH_SIZE = 16
 
-train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=2)
-val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=2)
-test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=2)
+train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=0)
+val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=0)
+test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=0)
 
 
 # ============================================================
@@ -266,7 +266,7 @@ plt.close()
 # 5. AVALIAÇÃO E INTERPRETAÇÃO
 # ============================================================
 
-model.load_state_dict(torch.load("best_model.pth"))
+model.load_state_dict(torch.load("best_model.pth", weights_only=True))
 model.eval()
 
 test_iou = 0.0
@@ -287,7 +287,7 @@ print(f"Dice médio: {test_dice:.4f}")
 # Visualização qualitativa: imagem + máscara real + máscara predita
 def show_predictions(n=5):
     model.eval()
-    fig, axes = plt.subplots(n, 3, figsize=(9, 3 * n))
+    fig, axes = plt.subplots(n, 4, figsize=(12, 3 * n))
     with torch.no_grad():
         for i in range(n):
             img, mask = test_dataset[i]
@@ -300,7 +300,10 @@ def show_predictions(n=5):
             axes[i, 1].set_title("Máscara real")
             axes[i, 2].imshow(pred, cmap="gray")
             axes[i, 2].set_title("Máscara predita")
-            for j in range(3):
+            axes[i, 3].imshow(img.permute(1, 2, 0).numpy())
+            axes[i, 3].imshow(pred, cmap="jet", alpha=0.4)
+            axes[i, 3].set_title("Sobreposição")
+            for j in range(4):
                 axes[i, j].axis("off")
     plt.tight_layout()
     plt.savefig("predictions_sample.png", dpi=100)
