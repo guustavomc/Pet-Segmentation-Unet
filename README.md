@@ -20,10 +20,11 @@ The goal is to train a segmentation model capable of separating, pixel by pixel,
 ├── main.py                    # main script (dataset → training → evaluation)
 ├── README.md
 ├── requirements.txt
-├── sample_visualization.png   # generated after running the script
-├── loss_curve.png             # generated after running the script
-├── predictions_sample.png     # generated after running the script
-└── best_model.pth             # generated after running the script
+└── outputs/                   # generated after running the script
+    ├── sample_visualization.png
+    ├── loss_curve.png
+    ├── predictions_sample.png
+    └── best_model.pth
 ```
 
 ## How to run

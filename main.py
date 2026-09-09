@@ -26,6 +26,9 @@ import numpy as np
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Usando device: {device}")
 
+OUTPUT_DIR = "outputs"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
 # ============================================================
 # 1. CARREGAMENTO E ANÁLISE DO DATASET
 # ============================================================
@@ -90,9 +93,9 @@ def show_sample(dataset, idx=0):
     for ax in axes:
         ax.axis("off")
     plt.tight_layout()
-    plt.savefig("sample_visualization.png", dpi=100)
+    plt.savefig(os.path.join(OUTPUT_DIR, "sample_visualization.png"), dpi=100)
     plt.close()
-    print("Visualização salva em sample_visualization.png")
+    print(f"Visualização salva em {OUTPUT_DIR}/sample_visualization.png")
 
 show_sample(train_dataset, idx=0)
 
@@ -248,7 +251,7 @@ for epoch in range(EPOCHS):
 
     if val_loss < best_val_loss:
         best_val_loss = val_loss
-        torch.save(model.state_dict(), "best_model.pth")
+        torch.save(model.state_dict(), os.path.join(OUTPUT_DIR, "best_model.pth"))
 
 # Curvas de treino/validação (monitorar overfitting)
 plt.figure(figsize=(8, 5))
@@ -258,7 +261,7 @@ plt.xlabel("Época")
 plt.ylabel("Loss")
 plt.legend()
 plt.title("Curva de perda - treino vs validação")
-plt.savefig("loss_curve.png", dpi=100)
+plt.savefig(os.path.join(OUTPUT_DIR, "loss_curve.png"), dpi=100)
 plt.close()
 
 
@@ -266,7 +269,7 @@ plt.close()
 # 5. AVALIAÇÃO E INTERPRETAÇÃO
 # ============================================================
 
-model.load_state_dict(torch.load("best_model.pth", weights_only=True))
+model.load_state_dict(torch.load(os.path.join(OUTPUT_DIR, "best_model.pth"), weights_only=True))
 model.eval()
 
 test_iou = 0.0
@@ -306,8 +309,8 @@ def show_predictions(n=5):
             for j in range(4):
                 axes[i, j].axis("off")
     plt.tight_layout()
-    plt.savefig("predictions_sample.png", dpi=100)
+    plt.savefig(os.path.join(OUTPUT_DIR, "predictions_sample.png"), dpi=100)
     plt.close()
-    print("Predições salvas em predictions_sample.png")
+    print(f"Predições salvas em {OUTPUT_DIR}/predictions_sample.png")
 
 show_predictions(n=5)
