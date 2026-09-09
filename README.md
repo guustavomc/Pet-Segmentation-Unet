@@ -1,82 +1,82 @@
 # Pet-Segmentation-Unet
 
-Projeto de segmentação semântica binária (pet vs. fundo) usando uma U-Net treinada do zero no dataset **Oxford-IIIT Pet**.
+Binary semantic segmentation project (pet vs. background) using a U-Net trained from scratch on the **Oxford-IIIT Pet** dataset.
 
-> Desenvolvido para a disciplina de Redes Neurais Profundas (Deep Learning) — Especialização em Inteligência Artificial Aplicada, UNISINOS.
+> Developed for the Deep Learning course — Specialization in Applied Artificial Intelligence, UNISINOS.
 
-## Sobre o projeto
+## About the project
 
-O objetivo é treinar um modelo de segmentação capaz de separar, pixel a pixel, o animal (cão ou gato) do fundo da imagem. O dataset já fornece máscaras oficiais (trimaps), convertidas aqui para máscaras binárias.
+The goal is to train a segmentation model capable of separating, pixel by pixel, the animal (dog or cat) from the image background. The dataset already provides official masks (trimaps), converted here into binary masks.
 
-- **Arquitetura:** U-Net (encoder-decoder com skip connections), implementada do zero em PyTorch
-- **Dataset:** [Oxford-IIIT Pet Dataset](https://www.robots.ox.ac.uk/~vgg/data/pets/) — 37 raças de cães e gatos, ~7.400 imagens com anotação de trimap
-- **Loss:** combinação de Binary Cross-Entropy + Dice Loss
-- **Métricas:** IoU (Jaccard) e Dice coefficient
+- **Architecture:** U-Net (encoder-decoder with skip connections), implemented from scratch in PyTorch
+- **Dataset:** [Oxford-IIIT Pet Dataset](https://www.robots.ox.ac.uk/~vgg/data/pets/) — 37 dog and cat breeds, ~7,400 images with trimap annotations
+- **Loss:** combination of Binary Cross-Entropy + Dice Loss
+- **Metrics:** IoU (Jaccard) and Dice coefficient
 
-## Estrutura do repositório
+## Repository structure
 
 ```
 .
-├── main.py                    # script principal (dataset → treino → avaliação)
+├── main.py                    # main script (dataset → training → evaluation)
 ├── README.md
 ├── requirements.txt
-├── sample_visualization.png   # gerado após rodar o script
-├── loss_curve.png             # gerado após rodar o script
-├── predictions_sample.png     # gerado após rodar o script
-└── best_model.pth             # gerado após rodar o script
+├── sample_visualization.png   # generated after running the script
+├── loss_curve.png             # generated after running the script
+├── predictions_sample.png     # generated after running the script
+└── best_model.pth             # generated after running the script
 ```
 
-## Como rodar
+## How to run
 
-### 1. Clonar o repositório
+### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<seu-usuario>/pet-segmentation-unet.git
+git clone https://github.com/guustavomc/Pet-Segmentation-Unet.git
 cd pet-segmentation-unet
 ```
 
-### 2. Instalar dependências
+### 2. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Executar
+### 3. Run
 
 ```bash
 python main.py
 ```
 
-O dataset é baixado automaticamente na primeira execução (via `torchvision.datasets.OxfordIIITPet`), incluindo imagens e trimaps oficiais — não é necessário download manual.
+The dataset is downloaded automatically on the first run (via `torchvision.datasets.OxfordIIITPet`), including official images and trimaps — no manual download is required.
 
-> Recomenda-se rodar em ambiente com GPU (ex: Google Colab). Em CPU, o treinamento é significativamente mais lento.
+> Running in a GPU environment (e.g., Google Colab) is recommended. Training is significantly slower on CPU.
 
-## Etapas do pipeline
+## Pipeline steps
 
-1. **Carregamento e análise do dataset** — download via torchvision, split treino/validação/teste, visualização inicial de imagem + máscara.
-2. **Pré-processamento** — redimensionamento para 128×128, normalização e binarização do trimap (pet + borda = classe 1, fundo = classe 0).
-3. **Construção do modelo** — U-Net com 4 níveis de profundidade, batch normalization e skip connections.
-4. **Treinamento e validação** — Adam + ReduceLROnPlateau, loss combinada (BCE + Dice), monitoramento de overfitting via curva de loss treino/validação.
-5. **Avaliação e interpretação** — cálculo de IoU e Dice no conjunto de teste, visualização comparando imagem, máscara real e máscara predita.
+1. **Dataset loading and analysis** — download via torchvision, train/validation/test split, initial visualization of image + mask.
+2. **Preprocessing** — resizing to 128×128, normalization, and trimap binarization (pet + border = class 1, background = class 0).
+3. **Model construction** — U-Net with 4 depth levels, batch normalization, and skip connections.
+4. **Training and validation** — Adam + ReduceLROnPlateau, combined loss (BCE + Dice), overfitting monitoring via train/validation loss curve.
+5. **Evaluation and interpretation** — IoU and Dice calculation on the test set, visualization comparing image, ground-truth mask, and predicted mask.
 
-## Resultados
+## Results
 
-| Métrica | Valor |
+| Metric | Value |
 |---|---|
-| IoU (teste) | _preencher após treino_ |
-| Dice (teste) | _preencher após treino_ |
+| IoU (test) | _fill in after training_ |
+| Dice (test) | _fill in after training_ |
 
-*(Adicionar aqui as curvas de loss e exemplos de predição gerados após rodar o script.)*
+*(Add loss curves and prediction examples generated after running the script here.)*
 
-## Possíveis melhorias
+## Possible improvements
 
-- Trocar a U-Net do zero por um encoder pré-treinado (ex: `segmentation-models-pytorch` com backbone ResNet34)
-- Data augmentation (flip, rotação, brightness) via `albumentations`
-- Early stopping automático
-- Ajuste de resolução (256×256) para maior precisão nas bordas
-- Visualização final com máscara predita sobreposta à imagem original (overlay), como já feito na etapa 1
+- Replace the from-scratch U-Net with a pretrained encoder (e.g., `segmentation-models-pytorch` with a ResNet34 backbone)
+- Data augmentation (flip, rotation, brightness) via `albumentations`
+- Automatic early stopping
+- Resolution adjustment (256×256) for higher edge precision
+- Final visualization with the predicted mask overlaid on the original image (overlay), as already done in step 1
 
-## Referências
+## References
 
 - Parkhi, O. M., Vedaldi, A., Zisserman, A., & Jawahar, C. V. (2012). *Cats and Dogs*. IEEE CVPR.
 - Ronneberger, O., Fischer, P., & Brox, T. (2015). *U-Net: Convolutional Networks for Biomedical Image Segmentation*.
