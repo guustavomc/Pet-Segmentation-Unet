@@ -2,7 +2,7 @@
 
 Binary semantic segmentation project (pet vs. background) using a U-Net trained from scratch on the **Oxford-IIIT Pet** dataset.
 
-> Developed for the Deep Learning course — Specialization in Applied Artificial Intelligence, UNISINOS.
+> Developed for the Deep Learning course (Redes Neurais Profundas) — Specialization in Applied Artificial Intelligence, UNISINOS.
 
 ## About the project
 
