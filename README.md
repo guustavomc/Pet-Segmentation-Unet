@@ -64,8 +64,8 @@ The dataset is downloaded automatically on the first run (via `torchvision.datas
 
 | Metric | Value |
 |---|---|
-| IoU (test) | _fill in after training_ |
-| Dice (test) | _fill in after training_ |
+| IoU (test) | 0.8520 |
+| Dice (test) | 0.8985 |
 
 *(Add loss curves and prediction examples generated after running the script here.)*
 
